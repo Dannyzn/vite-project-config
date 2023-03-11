@@ -17,6 +17,13 @@ export default defineConfig({
   // root: path.join(__dirname, 'src')
   plugins: [react()],
   css: {  // css 配置 https://vitejs.dev/config/#css-modules-options
+    modules: {
+      localsConvention: 'camelCaseOnly',
+      // 一般我们可以通过 generateScopedName 属性来对生成的类名进行自定义
+      // 其中，name 表示当前文件名，local 表示类名
+      generateScopedName: '[name]__[local]___[hash:base64:5]',
+
+    },
     preprocessorOptions: { // 配置 scss 全局变量
       scss: { // 配置 scss 全局变量 
         // additionalData: `@import "./src/variable.scss";` //Can't find stylesheet to import

@@ -24,8 +24,9 @@ FE engineer
                     -  借助于插件   vite-plugin-style-import 实现自动引入
                        - pnpm i vite-plugin-style-import -D
                        - 如何实现自动引入  在 vite.config.js 中配置
-                          -  import styleImport from 'vite-plugin-style-import';
-                             -  export default {
+                          ```
+                          import styleImport from 'vite-plugin-style-import';
+                              export default {
                                 plugins: [
                                   styleImport({
                                     libs: [
@@ -45,10 +46,36 @@ FE engineer
                                   }),
                                 ],
                               };
+
+                          ```
                     -  plan 2
                        -  normalizePath 解决 window 下的路径问题    
       - less
       - stylus
 
-    - 
-    - 
+    - css module 
+      - 不太常用的配置网站
+        - [postcss-modules](https://github.com/madyankin/postcss-modules)
+
+    - PostCSS
+        
+      - 一般你可以通过 postcss.config.js 来配置 postcss
+
+      -  Vite 配置文件中提供了 PostCSS 的配置入口
+
+
+    - autoprefixer
+
+      - 自动为不同的目标浏览器添加样式前缀
+      - 解决的是浏览器兼容性的问题
+
+    - [postcss-pxtorem](https://github.com/cuth/postcss-pxtorem)
+      - 用来将 px 转换为 rem 单位，在适配移动端的场景下很常用
+
+    - [postcss-preset-env](https://github.com/csstools/postcss-preset-env)
+      - 通过它，你可以编写最新的 CSS 语法，不用担心兼容性问题
+
+    - [postcss-px-to-viewport](https://www.npmjs.com/package/postcss-px-to-viewport)
+
+    - [cssnano](https://github.com/cssnano/cssnano)
+      - 用来压缩 CSS 代码

@@ -5,6 +5,8 @@ import react from '@vitejs/plugin-react'
 // 2. tsconfig.node.json 中设置 `allowSyntheticDefaultImports: true`，以允许下面的 default 导入方式
 import path from 'path'
 import { normalizePath } from 'vite';
+// vite.config.ts 增加如下的配置
+import autoprefixer from 'autoprefixer';
 
 // 全局 scss 文件的路径
 // 用 normalizePath 解决 window 下的路径问题
@@ -30,6 +32,13 @@ export default defineConfig({
         additionalData: `@import "./src/variable.scss";` // plan 1
         // additionalData: `@import "${normalizePath(path.resolve(__dirname, './src/variable.scss'))}";`, // plan 2
       },
-    }
+    },
+    //  进行 PostCSS 配置
+    postcss: {
+      plugins: [autoprefixer({
+        // overrideBrowserslist: ['Chrome > 40', 'ff > 31', 'ie 11']
+        overrideBrowserslist: ['last 2 versions', '>1%', 'ios 7'],
+      })]
+    },
   },
 })

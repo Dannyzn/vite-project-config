@@ -4,6 +4,11 @@ import react from '@vitejs/plugin-react'
 // 1. 为避免类型报错，你需要通过 `pnpm i @types/node -D` 安装类型
 // 2. tsconfig.node.json 中设置 `allowSyntheticDefaultImports: true`，以允许下面的 default 导入方式
 import path from 'path'
+import { normalizePath } from 'vite';
+
+// 全局 scss 文件的路径
+// 用 normalizePath 解决 window 下的路径问题
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,4 +16,13 @@ export default defineConfig({
   // root: path.resolve(__dirname, './'),
   // root: path.join(__dirname, 'src')
   plugins: [react()],
+  css: {  // css 配置 https://vitejs.dev/config/#css-modules-options
+    preprocessorOptions: { // 配置 scss 全局变量
+      scss: { // 配置 scss 全局变量 
+        // additionalData: `@import "./src/variable.scss";` //Can't find stylesheet to import
+        additionalData: `@import "./src/variable.scss";` // plan 1
+        // additionalData: `@import "${normalizePath(path.resolve(__dirname, './src/variable.scss'))}";`, // plan 2
+      },
+    }
+  },
 })

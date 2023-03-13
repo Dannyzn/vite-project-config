@@ -84,3 +84,10 @@ FE engineer
       -  什么是 ESLint？
          -  ESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，
          -  它的目标是保证代码的一致性和避免错误。
+      -  初始化
+         -  安装
+            -   pnpm i eslint -D
+         -  ESLint 的初始化命令
+            -  npx eslint --init
+            -  手动安装
+               -  pnpm i eslint-plugin-react@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest -D

@@ -79,3 +79,8 @@ FE engineer
 
     - [cssnano](https://github.com/cssnano/cssnano)
       - 用来压缩 CSS 代码
+
+   -  JS/TS 规范工具: ESLint
+      -  什么是 ESLint？
+         -  ESLint 是在 ECMAScript/JavaScript 代码中识别和报告模式匹配的工具，
+         -  它的目标是保证代码的一致性和避免错误。

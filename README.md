@@ -9,9 +9,10 @@ FE engineer
 
 ## 2. 项目配置
 
-  -  接入现代化的 css 工程化的方案
+  - 接入现代化的 css 工程化的方案
 
-    - css 预处理器
+     - css 预处理器
+    
       - sass
         -  pnpm i sass -D
            -  手动引入的方案

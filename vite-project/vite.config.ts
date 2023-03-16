@@ -7,6 +7,7 @@ import path from 'path'
 import { normalizePath } from 'vite';
 // vite.config.ts 增加如下的配置
 import autoprefixer from 'autoprefixer';
+import viteEslint from 'vite-plugin-eslint';
 
 // 全局 scss 文件的路径
 // 用 normalizePath 解决 window 下的路径问题
@@ -38,7 +39,7 @@ export default defineConfig({
       plugins: [autoprefixer({
         // overrideBrowserslist: ['Chrome > 40', 'ff > 31', 'ie 11']
         overrideBrowserslist: ['last 2 versions', '>1%', 'ios 7'],
-      })]
+      }), viteEslint({})]
     },
   },
 })

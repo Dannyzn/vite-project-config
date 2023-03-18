@@ -310,7 +310,7 @@ FE engineer
                     
                     - 并将 husky install作为项目启动前脚本
                     
-                    - 
+                    
                     ```
                     {
                         "scripts": {
@@ -344,7 +344,7 @@ FE engineer
                           
                           - package.json中添加如下的配置:
                           
-                          - ```"lint-staged": {
+                           ```"lint-staged": {
                                 "**/*.{js,jsx,tsx,ts}": [
                                 "npm run lint:script",
                                 "git add ."
@@ -385,7 +385,8 @@ FE engineer
                   
                     - 所规定的 commit 信息一般由两个部分: type 和 subject
                     
-                      - ```// type 指提交的类型
+                      
+                      ```// type 指提交的类型
                         // subject 指提交的摘要信息
                         <type>: <subject>
                         ```

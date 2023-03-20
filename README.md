@@ -3,8 +3,11 @@ FE engineer
 
 
 ## 1. 项目初始化
+
  - pnpm create vite
+ 
  - 可以选择设置 国内 npm 源
+ 
    - pnpm config set registry https://registry.npmmirror.com/
 
 ## 2. 项目配置
@@ -228,44 +231,73 @@ FE engineer
                       - "writable"或者 true，表示变量可重写；
                       - "readonly"或者false，表示变量不可重写；
                       - "off"，表示禁用该全局变量。
-       
-    -  Prettier 
+
+   -  Prettier 
+    
        -  首先是安装
+       
           -  pnpm i prettier -D
+          
        -  配置
+       
           -  根目录新建.prettierrc.js配置文件
 
           -  将Prettier集成到现有的ESLint工具
+          
              -  安装两个工具包
+             
                 -  pnpm i eslint-config-prettier eslint-plugin-prettier -D
 
                 -  eslint-config-prettier
+                
                    -  覆盖 ESLint 本身的规则配置
+                   
                 -  eslint-plugin-prettier
+                
                    -  让 Prettier 来接管eslint --fix即修复代码的能力
+                   
              -  .eslintrc.js 配置文件中接入 prettier 的相关工具链
+             
        - VSCode 配置
+       
           -  在VSCode中安装ESLint和Prettier这两个插件，并且在设置区中开启Format On Save
+          
        -  Vite 中接入 ESLint
+       
           -  add:  vite-plugin-eslint
+          
              -  pnpm i vite-plugin-eslint -D
+             
        -  样式规范工具: Stylelint
+       
           -  Stylelint，一个强大的现代化样式 Lint 工具，用来帮助你避免语法错误和统一代码风格。
+          
           -  装 Stylelint 以及相应的工具套件
+          
              -  pnpm i stylelint stylelint-prettier stylelint-config-prettier stylelint-config-recess-order stylelint-config-standard stylelint-config-standard-scss -D
+             
           -  配置文件.stylelintrc.js
+          
              -  pnpm run lint:style 即可完成样式代码的规范检查和自动格式化
+             
           -  在 Vite 中集成 Stylelint
 
 -  Git 提交工作流集成 
 
        -  Husky + lint-staged 的 Git 提交工作流集成
+       
        -  提交前的代码 Lint 检查
+       
           -  代码提交的时候进行卡点检查 就是拦截 git commit 命令
+          
              -  安装
-                -  pnpm i husky -D 
+             
+                -  pnpm i husky -D
+                
              -  Husky 4.x 及以下版本
+             
                 -  在package.json中配置 husky 的钩子
+                
                 ```
                     {
                         "husky": {
@@ -274,10 +306,14 @@ FE engineer
                     }
                 ```
                 - 最新版本(7.x 版本)中是无效的
+                
                   - 初始化 Husky
+                  
                     - npx husky install
+                    
                     - 并将 husky install作为项目启动前脚本
-                    - 
+                    
+                    
                     ```
                     {
                         "scripts": {
@@ -288,18 +324,30 @@ FE engineer
 
                     ```
                     - 添加 Husky 钩子，在终端执行如下命令
+                    
                       - npx husky add .husky/pre-commit "npm run lint"
+                      
                       - 会有一个问题:
+                      
                         - 在 Husky 的钩子中执行 npm run lint，这会产生一个额外的问题
+                        
                         - Husky 中每次执行npm run lint都对仓库中的代码进行全量检查
+                        
                         - 当项目代码越来越多的时候，提交的过程会越来越慢，影响开发体验
+                        
                       - 解决上述全量扫描问题
+                      
                         - lint-staged
+                        
                           - 可以实现只对存入暂存区的文件进行 Lint 检查
+                          
                         - 安装
+                        
                           - pnpm i -D lint-staged
+                          
                           - package.json中添加如下的配置:
-                          - ```"lint-staged": {
+                          
+                           ```"lint-staged": {
                                 "**/*.{js,jsx,tsx,ts}": [
                                 "npm run lint:script",
                                 "git add ."
@@ -311,6 +359,7 @@ FE engineer
                             }```
 
                           - 在 Husky 的钩子中执行 lint-staged
+                          
                             ```
                                 {
                                     "husky": {
@@ -318,21 +367,34 @@ FE engineer
                                     }
                                 }
                             ```
+                            
                     - 以上配置完成后，每次提交代码的时候，都会对暂存区的代码进行 Lint 检查
+                    
                       - 如果检查不通过，提交会被拦截
+                      
                       - 如果检查通过，提交会继续进行
+                      
               - 提交时的 commit 信息规范
+              
                 - Git 提交信息的规范也是不容忽视的一个环节
+                
                   - 安装工具库
+                  
                     - pnpm i commitlint @commitlint/cli @commitlint/config-conventional -D
+                    
                   - 新建.commitlintrc.js
+                  
                   - 直接使用@commitlint/config-conventional规范集
+                  
                     - 所规定的 commit 信息一般由两个部分: type 和 subject
-                      - ```// type 指提交的类型
+                    
+                      
+                      ```// type 指提交的类型
                         // subject 指提交的摘要信息
                         <type>: <subject>
                         ```
                     - type
+                    
                       - feat: 添加新功能。
                       - fix: 修复 Bug。
                       - chore: 一些不影响功能的更改
@@ -340,7 +402,9 @@ FE engineer
                       - perf: 性能方面的优化。
                       - refactor: 代码重构。
                       - test: 添加一些测试代码等等
+                      
                 - 将commitlint的功能集成到 Husky 的钩子
+                
                   - npx husky add .husky/commit-msg "npx --no-install commitlint -e $HUSKY_GIT_PARAMS"
 
 -  图片加载

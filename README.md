@@ -257,7 +257,7 @@ FE engineer
              -  pnpm run lint:style 即可完成样式代码的规范检查和自动格式化
           -  在 Vite 中集成 Stylelint
 
-    -  Git 提交工作流集成
+-  Git 提交工作流集成 
 
        -  Husky + lint-staged 的 Git 提交工作流集成
        -  提交前的代码 Lint 检查
@@ -342,3 +342,34 @@ FE engineer
                       - test: 添加一些测试代码等等
                 - 将commitlint的功能集成到 Husky 的钩子
                   - npx husky add .husky/commit-msg "npx --no-install commitlint -e $HUSKY_GIT_PARAMS"
+
+-  图片加载
+    - 三种加载图片的场景
+
+        1. HTML 或者 JSX 中，通过 img 标签来加载图片
+              ```
+              <img src="../../assets/a.png"></img>
+
+              ``` 
+        2. 在 CSS 中通过 background 属性加载图片
+             ```
+                .container {
+                    background: url("../../assets/a.png");
+                }
+             ```  
+        3. JavaScript 中，通过脚本的方式动态指定图片的src属性
+            ```
+            document.getElementById('xxx-img').src = '../../assets/c.png'
+            ```
+    - 那么如何在 vite 中使用呢？
+        - 通过 vite.config.js 中的配置项来实现
+
+            ```
+            // 别名配置
+            alias: {
+            "@assets": path.join(__dirname, "src/assets"),
+            },
+
+            ```
+        - 在遇到@assets路径的时候，会自动帮我们定位至根目录下的src/assets目录
+        - 

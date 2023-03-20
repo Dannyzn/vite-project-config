@@ -284,7 +284,7 @@ FE engineer
 
 -  Git 提交工作流集成 
 
-       -  Husky + lint-staged 的 Git 提交工作流集成
+    -  Husky + lint-staged 的 Git 提交工作流集成
        
        -  提交前的代码 Lint 检查
        
@@ -447,14 +447,20 @@ FE engineer
               -  vite-plugin-svgr
 
     -  JSON 加载
-          -  Vite 中已经内置了对于 JSON 文件的解析
+    
+        -  Vite 中已经内置了对于 JSON 文件的解析
+        
              -  底层使用@rollup/pluginutils 的 dataToEsm 方法
+             
              -  将 JSON 对象转换为一个包含各种具名导出的 ES 模块
+             
             ```
             import { version } from '../../../package.json';
 
             ``` 
-            - 也可以在配置文件禁用按名导入的方式
+            
+            -  也可以在配置文件禁用按名导入的方式
+            
             ```
             // vite.config.ts
 
@@ -462,44 +468,63 @@ FE engineer
                 json: {
                     stringify: true
                 }
-                }
+            }
             ``` 
+            
             -  export default JSON.parse("xxx") 
-                  -  会失去按名导出的能力，不过在 JSON 数据量比较大的时候，可以优化解析性能
+            
+               -  会失去按名导出的能力，不过在 JSON 数据量比较大的时候，可以优化解析性能
 
      - Web Worker 脚本
+     
          - 组件中引入，引入的时候注意加上 ***?worker后缀***
+         
          - 相当于告诉 Vite 这是一个 Web Worker 脚本文件
+         
 
     - Web Assembly 文件
+    
 
     - 其它静态资源
+    
           - 媒体类文件
+          
               - mp4、webm、ogg、mp3、wav、flac和aac
 
           - 字体类文件
+          
               - woff、woff2、eot、ttf 和 otf
 
           - 文本类
+          
               - webmanifest、pdf和txt
+              
           - 增加配置
 
             ```
-            // vite.config.ts
+             // vite.config.ts
 
-            {
-                assetsInclude: ['.gltf']
-            }
+             {
+                 assetsInclude: ['.gltf']
+             }
             ```
+            
     - 特殊资源后缀
+    
           - Vite 中引入静态资源时，也支持在路径最后加上一些特殊的 query 后缀
+          
 
-            -  ?url
-                  -  表示获取资源的路径，这在只想获取文件路径而不是内容的场景将会很有用
-            -  ?raw
-                  -  表示获取资源的字符串内容，如果你只想拿到资源的原始内容，可以使用这个后缀。
-            -  ?inline
-                  -  表示资源强制内联，而不是打包成单独的文件。
+            - ?url
+            
+                -  表示获取资源的路径，这在只想获取文件路径而不是内容的场景将会很有用
+                
+            - ?raw
+            
+                -  表示获取资源的字符串内容，如果你只想拿到资源的原始内容，可以使用这个后缀。
+                
+            - ?inline
+            
+                -  表示资源强制内联，而不是打包成单独的文件。
 
     -  生产环境处理
 

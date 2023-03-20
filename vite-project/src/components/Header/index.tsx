@@ -2,6 +2,7 @@ import styles from './index.module.scss';
 import logoSrc from '@assets/imgs/vite.png';
 import {ReactComponent as ReactLogo} from '@assets/icons/logo.svg';
 import Worker from './example.js?worker';
+// import init from './fib.wasm';
 
 // 1. 初始化 Worker 实例
 const worker = new Worker();
@@ -9,6 +10,13 @@ const worker = new Worker();
 worker.addEventListener('message', (e) => {
     console.log(e);
 });
+
+// wasm 引入
+// type FibFunc = (num: number) => number;
+// init({}).then((exports) => {
+//     const fibFunc = exports.fib as FibFunc;
+//     console.log('Fib result:', fibFunc(10));
+// });
 
 export function Header() {
   return (

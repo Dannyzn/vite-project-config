@@ -9,6 +9,7 @@ import { normalizePath } from 'vite';
 import autoprefixer from 'autoprefixer';
 import viteEslint from 'vite-plugin-eslint';
 import svgr from 'vite-plugin-svgr';
+import wasm from "vite-plugin-wasm";
 
 // 全局 scss 文件的路径
 // 用 normalizePath 解决 window 下的路径问题
@@ -19,7 +20,7 @@ export default defineConfig({
   // 手动指定项目根目录位置
   // root: path.resolve(__dirname, './'),
   // root: path.join(__dirname, 'src')
-  plugins: [react(), svgr()],
+  plugins: [react(), svgr(), wasm()],
   css: {  // css 配置 https://vitejs.dev/config/#css-modules-options
     modules: {
       localsConvention: 'camelCaseOnly',

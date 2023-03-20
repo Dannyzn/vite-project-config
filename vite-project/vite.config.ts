@@ -15,11 +15,17 @@ import wasm from "vite-plugin-wasm";
 // 用 normalizePath 解决 window 下的路径问题
 
 
+// 是否为生产环境，在生产环境一般会注入 NODE_ENV 这个环境变量，见下面的环境变量文件配置
+const isProduction = process.env.NODE_ENV === 'production';
+// 填入项目的 CDN 域名地址
+const CDN_URL = 'xxxxxx';
+
 // https://vitejs.dev/config/
 export default defineConfig({
   // 手动指定项目根目录位置
   // root: path.resolve(__dirname, './'),
   // root: path.join(__dirname, 'src')
+  base: isProduction ? CDN_URL: '/', // 生产环境下的基础路径
   plugins: [react(), svgr(), wasm()],
   css: {  // css 配置 https://vitejs.dev/config/#css-modules-options
     modules: {

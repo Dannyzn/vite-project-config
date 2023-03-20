@@ -1,6 +1,6 @@
 import styles from './index.module.scss';
 import logoSrc from '@assets/imgs/vite.png';
-import {ReactComponent as ReactLogo} from '@assets/icons/logo.svg';
+// import {ReactComponent as ReactLogo} from '@assets/icons/logo.svg';
 import Worker from './example.js?worker';
 // import init from './fib.wasm';
 
@@ -24,7 +24,9 @@ export function Header() {
       {/* <!-- 省略前面的组件内容 -->
       <!-- 使用图片 --> */}
       <img className="m-auto mb-4" src={logoSrc} alt="" />
-      <ReactLogo  style={{width: 100}}/>
+      {/* <ReactLogo  style={{width: 100}}/> */}
+      {/* 图片资源生产环境域名替换 */}
+      <img src={new URL('./logo.png', import.meta.env.VITE_IMG_BASE_URL).href} />
     </div>
   )
 };

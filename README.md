@@ -436,4 +436,186 @@ FE engineer
 
             ```
         - 在遇到@assets路径的时候，会自动帮我们定位至根目录下的src/assets目录
-        - 
+
+    -  SVG 组件方式加载
+
+        -  vue2
+              -   vite-plugin-vue2-svg
+        -  Vue3 
+              -   vite-svg-loader
+        -  React
+              -  vite-plugin-svgr
+
+    -  JSON 加载
+          -  Vite 中已经内置了对于 JSON 文件的解析
+             -  底层使用@rollup/pluginutils 的 dataToEsm 方法
+             -  将 JSON 对象转换为一个包含各种具名导出的 ES 模块
+            ```
+            import { version } from '../../../package.json';
+
+            ``` 
+            - 也可以在配置文件禁用按名导入的方式
+            ```
+            // vite.config.ts
+
+                {
+                json: {
+                    stringify: true
+                }
+                }
+            ``` 
+            -  export default JSON.parse("xxx") 
+                  -  会失去按名导出的能力，不过在 JSON 数据量比较大的时候，可以优化解析性能
+
+     - Web Worker 脚本
+         - 组件中引入，引入的时候注意加上 ***?worker后缀***
+         - 相当于告诉 Vite 这是一个 Web Worker 脚本文件
+
+    - Web Assembly 文件
+
+    - 其它静态资源
+          - 媒体类文件
+              - mp4、webm、ogg、mp3、wav、flac和aac
+
+          - 字体类文件
+              - woff、woff2、eot、ttf 和 otf
+
+          - 文本类
+              - webmanifest、pdf和txt
+          - 增加配置
+
+            ```
+            // vite.config.ts
+
+            {
+                assetsInclude: ['.gltf']
+            }
+            ```
+    - 特殊资源后缀
+          - Vite 中引入静态资源时，也支持在路径最后加上一些特殊的 query 后缀
+
+            -  ?url
+                  -  表示获取资源的路径，这在只想获取文件路径而不是内容的场景将会很有用
+            -  ?raw
+                  -  表示获取资源的字符串内容，如果你只想拿到资源的原始内容，可以使用这个后缀。
+            -  ?inline
+                  -  表示资源强制内联，而不是打包成单独的文件。
+
+    -  生产环境处理
+
+        -  部署域名怎么配置？
+        -  资源打包成单文件还是作为 Base64 格式内联?
+        -  图片太大了怎么压缩？
+        -  vg 请求数量太多了怎么优化？
+
+        -  1. 自定义部署域名
+              -    一般在我们访问线上的站点时，站点里面一些静态资源的地址都包含了相应域名的前缀
+            ```<img src="https://aliyun.cos.ap-beijing.myqcloud.com/logo.png" />``` 
+              - 实现 自动化的方式来实现地址的替换
+                  - 首先 配置 env 文件
+                      - .env.development
+                          - NODE_ENV=development
+                      - .env.production
+                          - NODE_ENV=production
+                  - 打包的时候 Vite 会自动将这些环境变量替换为相应的字符串。
+
+            - 有时候可能项目中的某些图片需要存放到另外的存储服务
+                - 一种直接的方案是将完整地址写死到 src 属性中
+                      - ```<img src="https://my-image-cdn.com/logo.png">```
+                      - 不太优雅的，我们可以通过定义环境变量的方式来解决这个问题
+                - 在项目根目录新增.env文件
+                      1. // 开发环境优先级: .env.development > .env
+                         // 生产环境优先级: .env.production > .env
+                    
+                      2. src/vite-env.d.ts增加类型声明
+                         ```
+                         /// <reference types="vite/client" />
+
+                            interface ImportMetaEnv {
+                                readonly VITE_APP_TITLE: string;
+                                // 自定义的环境变量
+                                readonly VITE_IMG_BASE_URL: string;
+                            }
+
+                            interface ImportMeta {
+                                readonly env: ImportMetaEnv;
+                            }
+                         ``` 
+        - 2. 单文件 or 内联
+              - Vite 中，所有的静态资源都有两种构建方式
+                  - 一种是打包成一个单文件
+                  - 另一种是通过 base64 编码的格式内嵌到代码中
+
+              -  这两种方案到底应该如何来选择呢？
+                  -  比较小的资源，适合内联到代码中
+                        - 一方面对代码体积的影响很小
+                        - 另一方面可以减少不必要的网络请求，优化网络性能
+
+                  -   对于比较大的资源，就推荐单独打包成一个文件
+                        -  否则可能导致上 MB 的 base64 字符串内嵌到代码中，导致代码体积瞬间庞大，页面加载性能直线下降。
+
+              -  Vite 中内置的优化方案
+                  -   如果静态资源体积 >= 4KB，则提取成单独的文件
+                  -   如果静态资源体积 < 4KB，则作为 base64 格式的字符串内联
+
+                  -  4 KB即为提取成单文件的临界值
+                  -  这个临界值你可以通过 ***build.assetsInlineLimit*** 自行配置
+                  ```// vite.config.ts
+                    {
+                        build: {
+                            // 8 KB
+                            assetsInlineLimit: 8 * 1024
+                        }
+                    }
+                    ```
+                  -  svg 格式的文件不受这个临时值的影响，始终会打包成单独的文件，因为它和普通格式的图片不一样，需要动态设置一些属性，比如 width、height、fill 等
+        -  3. 图片压缩
+              -  在 JavaScript 领域有一个非常知名的图片压缩库imagemin，
+                    -  Webpack 中大名鼎鼎的image-webpack-loader
+                    -  Vite 插件——vite-plugin-imagemin
+                       -  pnpm i vite-plugin-imagemin -D
+                    -  Vite 配置文件中引入:
+                    ```
+                    //vite.config.ts
+                        import viteImagemin from 'vite-plugin-imagemin';
+
+                        {
+                        plugins: [
+                            // 忽略前面的插件
+                            viteImagemin({
+                            // 无损压缩配置，无损压缩下图片质量不会变差
+                            optipng: {
+                                optimizationLevel: 7
+                            },
+                            // 有损压缩配置，有损压缩下图片质量可能会变差
+                            pngquant: {
+                                quality: [0.8, 0.9],
+                            },
+                            // svg 优化
+                            svgo: {
+                                plugins: [
+                                {
+                                    name: 'removeViewBox'
+                                },
+                                {
+                                    name: 'removeEmptyAttrs',
+                                    active: false
+                                }
+                                ]
+                            }
+                            })
+                        ]
+                        }
+                    ``` 
+        - 4. 雪碧图优化
+              -  虽然 svg 文件一般体积不大，但 Vite 中对于 svg 文件会始终打包成单文件，大量的图标引入之后会导致网络请求增加，大量的 HTTP 请求会导致网络解析耗时变长，页面加载性能直接受到影响。这个问题怎么解决呢
+                    -  HTTP2 的多路复用设计可以解决大量 HTTP 的请求导致的网络加载性能问题，因此雪碧图技术在 HTTP2 并没有明显的优化效果，这个技术更适合在传统的 HTTP 1.1 场景下使用(比如本地的 Dev Server)。
+
+              -  Vite 中提供了import.meta.glob的语法糖来解决这种批量导入的问题
+                 -  对象的 value 都是动态 import，适合按需加载的场景
+               
+              -  在这里我们只需要同步加载即可，可以使用 import.meta.globEager来完成:
+
+                  - 我们能不能把这些 svg 合并到一起，从而大幅减少网络请求呢？
+                    - 可以通过vite-plugin-svg-icons来实现这个方案
+                    - pnpm i vite-plugin-svg-icons -D

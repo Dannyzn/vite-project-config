@@ -175,7 +175,7 @@ FE engineer
                       - 添加插件后只是拓展了 ESLint 本身的规则集
                       - 但 ESLint 默认并没有开启这些规则的校验
                       - 如果要开启或者调整这些规则，你需要在 rules 中进行配置
-                      - ```
+                       ```
                        rules: {
                             'prettier/prettier': 'error',
                             quotes: ['error', 'single'],
@@ -193,7 +193,7 @@ FE engineer
                       - 从 ESLint 本身继承
                       - 从类似 eslint-config-xxx 的 npm 包继承
                       - 从 ESLint 插件继承
-                      - eg：
+                      eg：
                       ```
                       "extends": [
                             // 第1种情况 
@@ -212,8 +212,10 @@ FE engineer
                 - env 和 globals
                 
                   - 分别表示运行环境和全局变量
+                  
                   - 在指定的运行环境中会预设一些全局变量
-                    - ```
+                  
+                    ```
                      "env": {
                             "browser": "true",
                             "node": "true"
@@ -299,11 +301,11 @@ FE engineer
                 -  在package.json中配置 husky 的钩子
                 
                 ```
-                    {
-                        "husky": {
-                            "pre-commit": "npm run lint"
-                        }
-                    }
+                   {
+                       "husky": {
+                           "pre-commit": "npm run lint"
+                       }
+                   }
                 ```
                 - 最新版本(7.x 版本)中是无效的
                 
@@ -323,6 +325,7 @@ FE engineer
                     }
 
                     ```
+                    
                     - 添加 Husky 钩子，在终端执行如下命令
                     
                       - npx husky add .husky/pre-commit "npm run lint"
@@ -347,7 +350,8 @@ FE engineer
                           
                           - package.json中添加如下的配置:
                           
-                           ```"lint-staged": {
+                           ```
+                           "lint-staged": {
                                 "**/*.{js,jsx,tsx,ts}": [
                                 "npm run lint:script",
                                 "git add ."
@@ -356,7 +360,8 @@ FE engineer
                                 "npm run lint:style",
                                 "git add ."
                                 ]
-                            }```
+                            }
+                            ```
 
                           - 在 Husky 的钩子中执行 lint-staged
                           
@@ -389,9 +394,11 @@ FE engineer
                     - 所规定的 commit 信息一般由两个部分: type 和 subject
                     
                       
-                      ```// type 指提交的类型
+                      ```
+                        // type 指提交的类型
                         // subject 指提交的摘要信息
                         <type>: <subject>
+                        
                         ```
                     - type
                     

@@ -651,3 +651,14 @@ FE engineer
                   - 我们能不能把这些 svg 合并到一起，从而大幅减少网络请求呢？
                     - 可以通过vite-plugin-svg-icons来实现这个方案
                     - pnpm i vite-plugin-svg-icons -D
+
+-  为什么需要预构建?
+      -  lodash-es
+
+      -  Esbuild 
+
+   -  如何开启预构建？
+         -  自动开启
+            -  
+         -  手动开启
+            -  

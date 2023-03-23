@@ -10,7 +10,7 @@ FE engineer
  
    - pnpm config set registry https://registry.npmmirror.com/
 
-## 2. 项目配置
+## 2. 项目配置方案
 
   - 接入现代化的 css 工程化的方案
 
